@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: beepbeep
-  namespace: default
+  namespace: intersection
   labels:
     name: beepbeep
 spec:

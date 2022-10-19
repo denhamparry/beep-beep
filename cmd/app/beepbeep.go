@@ -10,6 +10,9 @@ import (
 
 func main() {
 
+	colors := [3]string{"🟢 - green", "🟡 - yellow", "🔴 - red"}
+	var light int = 0
+
 	sigs := make(chan os.Signal, 1)
 
 	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
@@ -18,8 +21,11 @@ func main() {
 
 	go func() {
 		sig := <-sigs
-		fmt.Println()
-		fmt.Println(sig, "some creds and a flag dumped")
+		fmt.Println("Signal received:", sig)
+		fmt.Println(os.Environ())
+		fmt.Println("AWS_ACCESS_KEY_ID=SOMETHINGSOMETHING")
+		fmt.Println("AWS_SECRET_ACCESS_KEY=FLAG(DodgeViper)")
+		fmt.Println("AWS_DEFAULT_REGION=🗽 - ⬆️  ⬇️  ➡️  ⬅️  - 🍔")
 		done <- true
 	}()
 
@@ -31,7 +37,11 @@ func main() {
 			fmt.Println("exiting")
 			return
 		default:
-			fmt.Println("!!beep beep!!!")
+			if light > 2 {
+				light = 0
+			}
+			fmt.Println(colors[light])
+			light++
 			time.Sleep(2 * time.Second)
 		}
 	}
